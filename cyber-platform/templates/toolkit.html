@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cyber Toolkit</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <canvas id="bgfx" aria-hidden="true"></canvas>
+  <header class="top">
+    <div>
+      <div class="brand"><a href="/" style="color:inherit;text-decoration:none"><span class="logo">&gt;_</span> Cyber Toolkit</a></div>
+      <p class="sub" data-i18n="title_sub">Xavfsizlik vositalari to'plami · o'quv loyihasi</p>
+    </div>
+    <div class="topbar">
+      <div class="lang" role="group" aria-label="Til / Язык / Language">
+        <button type="button" data-lang="uz">UZ</button><button type="button" data-lang="ru">RU</button><button type="button" data-lang="en">EN</button>
+      </div>
+      <a class="navlink" href="/darslik" data-i18n-title="to_darslik_title"><span data-i18n="to_darslik">Kiber Darslik</span></a>
+      <a class="navlink" href="/tahlil" data-i18n-title="to_tahlil_title"><span data-i18n="to_tahlil">Tahlil</span></a>
+      <button class="navlink" id="authBtn" type="button" data-i18n="auth_open">Kirish</button>
+    </div>
+  </header>
+
+  <!-- Auth panel (Supabase) -->
+  <div id="authPanel" class="authpanel" hidden></div>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="password" data-i18n="tab_password">Parol</button>
+    <button class="tab" data-tab="hash" data-i18n="tab_hash">Hash</button>
+    <button class="tab" data-tab="encode" data-i18n="tab_encode">Kodlash</button>
+    <button class="tab" data-tab="url" data-i18n="tab_url">Phishing URL</button>
+    <button class="tab" data-tab="scan" data-i18n="tab_scan">Port scanner</button>
+    <button class="tab" data-tab="headers" data-i18n="tab_headers">HTTP headers</button>
+    <button class="tab" data-tab="history" data-i18n="tab_history" id="tab-history" hidden>Tarix</button>
+  </nav>
+
+  <main>
+    <section class="panel active" id="password">
+      <h2 data-i18n="pw_h">Parol kuchini tekshirish</h2>
+      <p class="hint" data-i18n="pw_hint"></p>
+      <div class="row">
+        <input id="pw-input" type="password" data-i18n-ph="pw_ph" autocomplete="off">
+        <button class="ghost" id="pw-toggle" type="button" data-i18n="show">Ko'rsatish</button>
+      </div>
+      <div class="meter"><div id="pw-bar"></div></div>
+      <div id="pw-out" class="out"></div>
+    </section>
+
+    <section class="panel" id="hash">
+      <h2 data-i18n="hash_gen_h">Hash yaratish</h2>
+      <div class="row">
+        <input id="hash-text" data-i18n-ph="hash_ph">
+        <button id="hash-gen" data-i18n="btn_generate">Yaratish</button>
+      </div>
+      <div id="hash-gen-out" class="out"></div>
+      <h2 data-i18n="hash_id_h">Hash turini aniqlash</h2>
+      <div class="row">
+        <input id="hash-id" placeholder="5f4dcc3b5aa765d61d8327deb882cf99">
+        <button id="hash-identify" data-i18n="btn_identify">Aniqlash</button>
+      </div>
+      <div id="hash-id-out" class="out"></div>
+    </section>
+
+    <section class="panel" id="encode">
+      <h2 data-i18n="enc_h">Kodlash / Dekodlash</h2>
+      <p class="hint" data-i18n="enc_hint"></p>
+      <textarea id="enc-text" rows="4" data-i18n-ph="enc_ph"></textarea>
+      <div class="row">
+        <select id="enc-mode">
+          <option value="base64">Base64</option>
+          <option value="hex">Hex</option>
+          <option value="url">URL</option>
+          <option value="rot13">ROT13</option>
+          <option value="binary">Binary</option>
+        </select>
+        <button id="enc-do" data-i18n="btn_encode">Kodlash →</button>
+        <button id="dec-do" class="ghost" data-i18n="btn_decode">← Dekodlash</button>
+      </div>
+      <textarea id="enc-out" rows="4" readonly data-i18n-ph="enc_out_ph"></textarea>
+    </section>
+
+    <section class="panel" id="url">
+      <h2 data-i18n="url_h">Phishing URL tahlili</h2>
+      <p class="hint" data-i18n="url_hint"></p>
+      <div class="row">
+        <input id="url-input" placeholder="http://paypa1-login.secure-verify.xyz/account">
+        <button id="url-go" data-i18n="btn_analyze">Tahlil</button>
+      </div>
+      <div id="url-out" class="out"></div>
+    </section>
+
+    <section class="panel" id="scan">
+      <h2 data-i18n="scan_h">Port scanner</h2>
+      <p class="hint warn" data-i18n="scan_hint"></p>
+      <div class="row">
+        <select id="scan-host"></select>
+        <button id="scan-go" data-i18n="btn_scan">Skanerlash</button>
+      </div>
+      <div id="scan-out" class="out"></div>
+    </section>
+
+    <section class="panel" id="headers">
+      <h2 data-i18n="hdr_h">HTTP xavfsizlik sarlavhalari</h2>
+      <p class="hint" data-i18n="hdr_hint"></p>
+      <div class="row">
+        <input id="hdr-input" placeholder="github.com">
+        <button id="hdr-go" data-i18n="btn_check">Tekshirish</button>
+      </div>
+      <div id="hdr-out" class="out"></div>
+    </section>
+
+    <!-- HISTORY (faqat kirgan foydalanuvchi uchun) -->
+    <section class="panel" id="history">
+      <h2 data-i18n="hist_h">Tekshiruvlar tarixi</h2>
+      <p class="hint" data-i18n="hist_hint"></p>
+      <div id="hist-out" class="out"></div>
+    </section>
+  </main>
+
+  <footer data-i18n="footer">Faqat ta'lim va o'z tizimlaringizni himoyalash uchun.</footer>
+  <script src="{{ url_for('static', filename='bg.js') }}"></script>
+  <script src="/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+  <script src="{{ url_for('static', filename='i18n.js') }}"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+  <script src="{{ url_for('static', filename='auth.js') }}"></script>
+</body>
+</html>

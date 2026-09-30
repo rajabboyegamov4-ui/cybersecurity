@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cyber Platform</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .hub { max-width: 960px; margin: 0 auto; padding: 16px; }
+    .hub-hero { padding: 48px 0 24px; }
+    .hub-hero .logo { color: var(--accent); font-family: var(--mono, monospace); }
+    .hub-hero h1 { font-size: clamp(32px, 6vw, 52px); margin: 8px 0 12px; line-height: 1.05; }
+    .hub-hero p { color: var(--muted); font-size: 19px; max-width: 60ch; margin: 0; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 28px 0; }
+    .card { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card .ico { font-size: 30px; }
+    .card h3 { margin: 10px 0 4px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 24px; }
+    .stack span { font: 600 12px var(--mono, monospace); background: var(--sunk); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+    .hub-foot { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px; }
+    .hub .lang { float: right; }
+  </style>
+</head>
+<body>
+  <canvas id="bgfx" aria-hidden="true"></canvas>
+  <div class="hub">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="uz">UZ</button><button type="button" data-lang="ru">RU</button><button type="button" data-lang="en">EN</button>
+    </div>
+    <header class="hub-hero">
+      <div class="logo">&gt;_ cyber-platform</div>
+      <h1 data-i18n="hub_title">Kiberxavfsizlik platformasi</h1>
+      <p data-i18n="hub_sub">O'rganish, mashq va vositalar — bitta joyda. Uch tilda, Supabase bilan.</p>
+      <div class="stack">
+        <span>Python · Flask</span><span>HTML/CSS/JS</span><span>Supabase · Postgres</span><span>AES-256</span><span>UZ / RU / EN</span>
+      </div>
+    </header>
+
+    <div class="cards">
+      <a class="card" href="/darslik">
+        <div class="ico">🎓</div>
+        <h3 data-i18n="hub_darslik_h">Kiber Darslik</h3>
+        <p data-i18n="hub_darslik_p">10 interaktiv dars, terminal/subnet/git lablari, CTF, shaxsiy seyf, daraja tizimi.</p>
+      </a>
+      <a class="card" href="/toolkit">
+        <div class="ico">🛡️</div>
+        <h3 data-i18n="hub_toolkit_h">Cyber Toolkit</h3>
+        <p data-i18n="hub_toolkit_p">6 xavfsizlik vositasi (parol, hash, kodlash, phishing URL, port scanner, HTTP headers) + tarix.</p>
+      </a>
+      <a class="card" href="/tahlil">
+        <div class="ico">🧭</div>
+        <h3 data-i18n="hub_tahlil_h">Karyera va Tahlil</h3>
+        <p data-i18n="hub_tahlil_p">Kiberxavfsizlik darajalari, sertifikat yo'l xaritasi va maksimal foyda rejasi.</p>
+      </a>
+    </div>
+
+    <div class="hub-foot">
+      <p data-i18n="hub_foot">Ochiq manba portfolio loyihasi. Faqat ta'lim va o'z tizimlaringizni himoyalash uchun.</p>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='bg.js') }}"></script>
+  <script src="{{ url_for('static', filename='i18n.js') }}"></script>
+  <script>
+    // Hub uchun kichik i18n qo'llash
+    document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+    applyStatic();
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Render Blueprint — https://render.com
+# Deploy: GitHub repo'ni Render'ga ulang yoki bu faylni "Blueprint" sifatida import qiling.
+services:
+  - type: web
+    name: cyber-platform
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false          # Render dashboard'da qo'lda kiritiladi (maxfiy emas, lekin repoga qo'ymaymiz)
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.9"

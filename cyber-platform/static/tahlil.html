@@ -1,0 +1,379 @@
+<title>Karyera va Tahlil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #0c1017; --surface: #141b26; --sunk: #1b2431; --ink: #e4eaf3; --muted: #8b98ac;
+  --line: #263140; --accent: #38b6ff; --accent-soft: #16334a; --on-accent: #06121c;
+  --good: #3fd08a; --good-soft: #12301f; --warn: #f0b429; --warn-soft: #33280f;
+  --bad: #f2726b; --bad-soft: #351a1a; --gold: #f5c04a;
+  --code-bg: #0a0e14; --code-ink: #cfe0f0; --code-key: #7fb4ff; --code-str: #8fdca0; --code-com: #6b7a8d;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #eef1f6; --surface: #ffffff; --sunk: #e6ebf2; --ink: #14202e; --muted: #55647a;
+  --line: #d2dae5; --accent: #1f6fd6; --accent-soft: #e0ecfb; --on-accent: #ffffff;
+  --good: #16804f; --good-soft: #def3e8; --warn: #a8690c; --warn-soft: #fbefd9;
+  --bad: #c0392f; --bad-soft: #fbe3e1; --gold: #b8860b;
+  --code-bg: #14202e; --code-ink: #dbe4f0;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font: 17px/1.65 var(--body); margin: 0; padding-inline: 16px; padding-block: 0 60px; }
+.wrap { max-width: 900px; margin: 0 auto; }
+
+/* Hero */
+.hero { padding: 40px 0 24px; border-bottom: 1px solid var(--line); }
+.eyebrow { font: 600 13px var(--body); text-transform: uppercase; letter-spacing: .12em; color: var(--accent); }
+h1 { font: 800 clamp(30px, 5vw, 46px)/1.05 var(--display); margin: 8px 0 12px; letter-spacing: -0.02em; text-wrap: balance; }
+.lede { font-size: 20px; color: var(--muted); max-width: 62ch; margin: 0; }
+.verdict { margin-top: 20px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 0 14px 14px 0; padding: 16px 20px; }
+.verdict b { color: var(--accent); }
+
+h2 { font: 800 clamp(24px, 3.2vw, 32px)/1.15 var(--display); margin: 48px 0 6px; text-wrap: balance; }
+.sec-sub { color: var(--muted); margin: 0 0 20px; max-width: 64ch; }
+h3 { font: 700 20px var(--body); margin: 28px 0 10px; }
+p { margin: 0 0 14px; }
+a { color: var(--accent); }
+strong { color: var(--ink); }
+.mono { font-family: var(--mono); }
+code { font: 0.88em var(--mono); background: var(--sunk); padding: 1px 6px; border-radius: 5px; }
+
+/* Career ladder */
+.ladder { display: grid; gap: 12px; margin: 20px 0; }
+.rung { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: grid; grid-template-columns: 54px 1fr; gap: 16px; align-items: start; }
+.rung .lvl { width: 54px; height: 54px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font: 800 15px/1.1 var(--display); text-align: center; }
+.rung h3 { margin: 0 0 2px; font-size: 18px; }
+.rung .yrs { color: var(--muted); font-size: 14px; font-weight: 600; }
+.rung .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--sunk); color: var(--muted); }
+.tag.cert { background: var(--accent-soft); color: var(--accent); }
+.tag.pay { background: var(--good-soft); color: var(--good); font-variant-numeric: tabular-nums; }
+.rung p { margin: 6px 0 0; font-size: 15px; }
+
+/* Tracks (certs) */
+.tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+.track { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.track.red { border-top: 3px solid var(--bad); }
+.track.blue { border-top: 3px solid var(--accent); }
+.track.entry { border-top: 3px solid var(--good); grid-column: 1 / -1; }
+.track h3 { margin: 0 0 4px; }
+.track ol { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15px; }
+.track li b { color: var(--ink); }
+.track li span { color: var(--muted); }
+
+/* Gap analysis: two columns */
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+.col { border-radius: 14px; padding: 18px; }
+.col.have { background: var(--good-soft); border: 1px solid color-mix(in srgb, var(--good) 30%, transparent); }
+.col.gap { background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 30%, transparent); }
+.col h3 { margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+.col.have h3 { color: var(--good); } .col.gap h3 { color: var(--bad); }
+.col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.col li { font-size: 15px; padding-left: 24px; position: relative; }
+.col li b { display: block; }
+.col li span { color: var(--muted); font-size: 14px; }
+.col.have li::before { content: "✓"; position: absolute; left: 0; color: var(--good); font-weight: 800; }
+.col.gap li::before { content: "✕"; position: absolute; left: 0; color: var(--bad); font-weight: 800; }
+
+/* Priority gaps ranked */
+.rank { display: grid; gap: 10px; margin: 18px 0; }
+.rankrow { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
+.rankrow .n { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font: 800 15px var(--mono); background: var(--bad-soft); color: var(--bad); }
+.rankrow.med .n { background: var(--warn-soft); color: var(--warn); }
+.rankrow h3 { margin: 0 0 2px; font-size: 16px; }
+.rankrow p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.rankrow .fix { margin-top: 6px; font-size: 14.5px; }
+.rankrow .fix b { color: var(--good); }
+
+/* Plan steps */
+.steps { display: grid; gap: 12px; margin: 18px 0; counter-reset: st; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 16px 56px; position: relative; }
+.step::before { counter-increment: st; content: counter(st); position: absolute; left: 14px; top: 16px; width: 30px; height: 30px; border-radius: 8px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font: 800 15px var(--mono); }
+.step h3 { margin: 0 0 4px; font-size: 17px; }
+.step p { margin: 0; font-size: 15px; color: var(--muted); }
+.step .k { color: var(--accent); font-weight: 700; }
+
+/* Callout */
+.callout { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin: 20px 0; }
+.callout.gold { border-left: 4px solid var(--gold); }
+.callout.warn { border-left: 4px solid var(--warn); background: var(--warn-soft); }
+.callout h3 { margin: 0 0 6px; }
+.big-quote { font: 700 22px/1.4 var(--display); text-wrap: balance; margin: 24px 0; color: var(--ink); }
+.big-quote span { color: var(--accent); }
+
+.foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.links a { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; text-decoration: none; font-size: 14px; }
+.topnav { max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: calc(env(safe-area-inset-top, 0px) + 14px); }
+.topnav .navlink { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); border-radius: 9px; padding: 7px 13px; font: 600 14px var(--body); text-decoration: none; cursor: pointer; }
+.topnav .navlink:hover { border-color: var(--accent); color: var(--accent); }
+#themeBtn { margin-left: auto; }
+
+.disc { color: var(--muted); font-size: 13.5px; font-style: italic; }
+@media (max-width: 640px) {
+  .tracks, .ba { grid-template-columns: 1fr; }
+  .rung { grid-template-columns: 44px 1fr; gap: 12px; }
+  .rung .lvl { width: 44px; height: 44px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="topnav">
+  <a class="navlink" href="/">← Platforma</a>
+  <a class="navlink" href="/darslik">Kiber Darslik</a>
+  <a class="navlink" href="/toolkit">Cyber Toolkit</a>
+  <button class="navlink" id="themeBtn" type="button">Yorug‘ / Qorong‘i</button>
+</div>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Chuqur tahlil · Rejo uchun · 2026</div>
+  <h1>Kiberxavfsizlik: karyera, darajalar va bu loyihaning halol tahlili</h1>
+  <p class="lede">Bu sohada qayerdan qayerga borish mumkin, hozirgi loyiha nima beradi, nima yetishmaydi va undan maksimal foyda olish uchun aniq nima qilish kerak.</p>
+  <div class="verdict">
+    <b>Qisqa xulosa.</b> Siz qurgan Kiber Darslik va Toolkit — <strong>tushuncha (nazariya) qatlami</strong> uchun a’lo darajada: “nima uchun”ni o‘rgatadi, buni ko‘pchilik yangi boshlovchilar o‘tkazib yuboradi. Lekin professional bo‘lish uchun bu <strong>yetarli emas</strong> — u haqiqiy amaliyot (real lab, real vositalar, portfolio, jamoa) o‘rnini bosolmaydi. Pastda nima kamligini va uni qanday to‘ldirishni aniq yozdim.
+  </div>
+</header>
+
+<h2>1. Karyera narvoni — qayerga borish mumkin</h2>
+<p class="sec-sub">Kiberxavfsizlikda tipik yo‘l quyidagicha. Ko‘pchilik SOC (kuzatuv markazi) yoki IT-support’dan boshlaydi. Maoshlar — global (AQSh) o‘rtacha ko‘rsatkichlar; O‘zbekistonda raqamlar boshqacha, lekin <strong>tartib va ko‘nikma bir xil</strong>.</p>
+
+<div class="ladder">
+  <div class="rung">
+    <div class="lvl">0–2<br>yil</div>
+    <div>
+      <h3>SOC Analyst (L1) / IT Support</h3>
+      <div class="yrs">Kirish nuqtasi</div>
+      <p>Xavfsizlik ogohlantirishlarini kuzatish, phishing xatlarni tahlil qilish, hodisalarni saralash. Bu yerdan hamma boshlaydi.</p>
+      <div class="meta"><span class="tag">Tarmoq + Linux</span><span class="tag">Log tahlil, SIEM</span><span class="tag cert">Security+ / ISC2 CC</span></div>
+    </div>
+  </div>
+  <div class="rung">
+    <div class="lvl">2–5<br>yil</div>
+    <div>
+      <h3>Security Analyst / Pentester (junior)</h3>
+      <div class="yrs">O‘rta daraja</div>
+      <p>Hodisalarga javob (incident response), threat hunting, zaifliklarni topish. Bu yerda yo‘nalish tanlanadi: <strong>Red</strong> (hujum) yoki <strong>Blue</strong> (himoya).</p>
+      <div class="meta"><span class="tag">Python/PowerShell</span><span class="tag">MITRE ATT&CK</span><span class="tag cert">CySA+ / eJPT / CDSA</span><span class="tag pay">~$120k+ (AQSh)</span></div>
+    </div>
+  </div>
+  <div class="rung">
+    <div class="lvl">5–8<br>yil</div>
+    <div>
+      <h3>Security Engineer / Senior Pentester</h3>
+      <div class="yrs">Katta mutaxassis</div>
+      <p>Xavfsizlik infratuzilmasini qurish, bulut xavfsizligi, detection engineering. Chuqur texnik daraja.</p>
+      <div class="meta"><span class="tag">Cloud (AWS/Azure)</span><span class="tag">Zero-trust</span><span class="tag cert">CISSP / OSCP</span><span class="tag pay">~$155k (AQSh)</span></div>
+    </div>
+  </div>
+  <div class="rung">
+    <div class="lvl">8–12<br>yil</div>
+    <div>
+      <h3>Security Architect / Manager</h3>
+      <div class="yrs">Rahbar / arxitektor</div>
+      <p>Butun tizim xavfsizligini loyihalash yoki jamoani boshqarish, byudjet, strategiya.</p>
+      <div class="meta"><span class="tag">Arxitektura</span><span class="tag cert">CISM / CISSP</span><span class="tag pay">~$150–190k (AQSh)</span></div>
+    </div>
+  </div>
+  <div class="rung">
+    <div class="lvl">12+<br>yil</div>
+    <div>
+      <h3>Director / CISO</h3>
+      <div class="yrs">Eng yuqori</div>
+      <p>Tashkilotning butun xavfsizlik strategiyasi, boshqaruvga hisobot, xatarlarni boshqarish.</p>
+      <div class="meta"><span class="tag">Risk governance</span><span class="tag">Liderlik</span><span class="tag pay">~$320k (AQSh, median)</span></div>
+    </div>
+  </div>
+</div>
+<p class="disc">Manba: TripleTen 2026 karyera qo‘llanmasi va BLS ma’lumotlari. Maoshlar AQSh bozori uchun; O‘zbekistonda pastroq, lekin masofaviy (remote) ishlash bu farqni kamaytiradi.</p>
+
+<h2>2. Sertifikat yo‘l xaritasi</h2>
+<p class="sec-sub">Sertifikat o‘zi ish bermaydi, lekin CV’ni filtrdan o‘tkazadi va bilimni tizimlashtiradi. Bepuldan boshlang, keyin yo‘nalishga qarab tanlang.</p>
+
+<div class="tracks">
+  <div class="track entry">
+    <h3>Kirish darajasi — shu yerdan boshlang</h3>
+    <ol>
+      <li><b>ISC2 CC</b> <span>— 2026-yil may oyigacha BEPUL. Birinchi sertifikatingiz shu bo‘lsin.</span></li>
+      <li><b>Google Cybersecurity Certificate</b> <span>— Linux, Python, SQL, SIEM. Coursera’da, amaliyroq.</span></li>
+      <li><b>CompTIA Security+</b> <span>(~$392) — sohaning “oltin standarti”, ko‘p ish e’lonida talab qilinadi.</span></li>
+    </ol>
+  </div>
+  <div class="track red">
+    <h3>🔴 Red Team (hujum / pentest)</h3>
+    <ol>
+      <li><b>eJPT</b> <span>— eng yaxshi birinchi pentest sertifikati, amaliy.</span></li>
+      <li><b>HTB CPTS</b> <span>(~$210/yil) — 10 kunlik amaliy imtihon, kuchli.</span></li>
+      <li><b>PortSwigger BSCP</b> <span>(~$99) — web hacking’ga ixtisos.</span></li>
+      <li><b>OSCP</b> <span>(~$1749) — offensive dunyoning tarixiy standarti, qiyin.</span></li>
+    </ol>
+  </div>
+  <div class="track blue">
+    <h3>🔵 Blue Team (himoya / SOC)</h3>
+    <ol>
+      <li><b>Security Blue Team BTL1</b> <span>(~$399) — 30 soat amaliy himoya.</span></li>
+      <li><b>HTB CDSA</b> <span>(~$200–400) — to‘liq amaliy SOC L1/L2.</span></li>
+      <li><b>CompTIA CySA+</b> <span>(~$392) — hodisalarga javob, hujum modellari.</span></li>
+      <li><b>Microsoft SC-200</b> <span>(~$165) — Sentinel, Defender (bulut SOC).</span></li>
+    </ol>
+  </div>
+</div>
+<p class="disc">Manba: 2026 sertifikat yo‘l xaritasi (Pillitteri) va OSCP/eJPT/CEH taqqoslashlari.</p>
+
+<h2>3. Bu loyiha: nima bor, nima yetishmaydi</h2>
+<p class="sec-sub">Eng muhim qism. Halol baho — chunki maqsad sizni chalg‘itish emas, tez pro qilish.</p>
+
+<div class="ba">
+  <div class="col have">
+    <h3>✓ Loyiha yaxshi beradigan narsa</h3>
+    <ul>
+      <li><b>Tushuncha (“nima uchun”)</b><span>Ko‘pchilik yangi boshlovchi buni o‘tkazib, faqat vosita bosishni o‘rganadi. Siz asosini tushunasiz.</span></li>
+      <li><b>Kod ortidagi mantiq</b><span>Toolkit kodini qatorma-qator o‘qish — kamdan-kam uchraydigan, qimmatli ko‘nikma.</span></li>
+      <li><b>Xavfsiz mashq muhiti</b><span>XSS, phishing, terminal — hech narsani buzmasdan sinash.</span></li>
+      <li><b>Motivatsiya tizimi</b><span>Streak, daraja, CTF — har kuni qaytib kelishga undaydi.</span></li>
+      <li><b>Til to‘sig‘i yo‘q</b><span>Uch tilda — asoslarni ona tilida tushunasiz.</span></li>
+      <li><b>Haqiqiy kriptografiya</b><span>Seyf — o‘yin emas, chin AES-256. Portfolio uchun yaxshi.</span></li>
+    </ul>
+  </div>
+  <div class="col gap">
+    <h3>✕ Yetishmayotgan narsa</h3>
+    <ul>
+      <li><b>Haqiqiy amaliyot</b><span>Terminal, port scanner, git — bular SIMULYATSIYA. Ish beruvchi real nmap, Burp, Wiresharkni real nishonda ko‘rishni xohlaydi.</span></li>
+      <li><b>Uy laboratoriyasi</b><span>VirtualBox + Kali + zaif VM (Metasploitable). Pro’lar №1 deb ataydigan narsa — loyihada yo‘q.</span></li>
+      <li><b>Chuqur mavzular</b><span>2–6 oy (real pentest, SIEM, forensika, malware) hali qurilmagan. Hozircha faqat poydevor.</span></li>
+      <li><b>Portfolio / writeup</b><span>Ishga olinishning asosi — GitHub’da 50+ CTF yechimi. Loyiha buni ishlab chiqishga yo‘naltirmaydi.</span></li>
+      <li><b>Jamoa va ko‘rinish</b><span>LinkedIn, Discord, meetup — ishni ko‘pincha tanish-bilish beradi.</span></li>
+      <li><b>Sertifikatga tayyorlash</b><span>Security+/CC imtihon savollari, mashq testlari yo‘q.</span></li>
+      <li><b>Ingliz tili</b><span>Sohaning 90% materiali ingliz tilida. Buni o‘rganmasa, yuqoriga chiqib bo‘lmaydi.</span></li>
+      <li><b>Takror va esda saqlash</b><span>Testlar bir martalik; eski mavzuni takrorlash (flashcard) tizimi yo‘q.</span></li>
+    </ul>
+  </div>
+</div>
+
+<h3>Yetishmovchiliklar — muhimlik bo‘yicha</h3>
+<div class="rank">
+  <div class="rankrow">
+    <div class="n">1</div>
+    <div>
+      <h3>Haqiqiy amaliyot muhiti (eng muhim)</h3>
+      <p>“Kiberxavfsizlikni o‘qib emas, QILIB o‘rganasiz.” Simulyatsiya tushunish uchun, real ko‘nikma real muhitda paydo bo‘ladi.</p>
+      <p class="fix"><b>Yechim:</b> Har darsdan keyin darhol TryHackMe yoki HackTheBox’da o‘sha mavzuni real qiling. VirtualBox’ga Kali + Metasploitable o‘rnating.</p>
+    </div>
+  </div>
+  <div class="rankrow">
+    <div class="n">2</div>
+    <div>
+      <h3>Portfolio (ishga olinishning kaliti)</h3>
+      <p>Sertifikatdan ko‘ra GitHub’dagi 50+ yechim ko‘proq ishonch beradi. Ish beruvchilar pozitsiya ochilmasdan oldin sizning faoliyatingizni kuzatadi.</p>
+      <p class="fix"><b>Yechim:</b> Har CTF va uy vazifasini GitHub’da writeup qilib yozing. <code>cyber-journey</code> repongizni bugun boshlang.</p>
+    </div>
+  </div>
+  <div class="rankrow med">
+    <div class="n">3</div>
+    <div>
+      <h3>Ingliz tili</h3>
+      <p>OSCP, HTB, hujjatlar, ish e’lonlari — deyarli hammasi inglizcha. Bu daraja oshgan sari majburiy bo‘ladi.</p>
+      <p class="fix"><b>Yechim:</b> Darslarni bu loyihada ingliz tiliga o‘tkazib o‘qing (EN tugmasi). Har kuni 1 ta inglizcha writeup o‘qing.</p>
+    </div>
+  </div>
+  <div class="rankrow med">
+    <div class="n">4</div>
+    <div>
+      <h3>Ixtisoslashuv (specialization)</h3>
+      <p>Loyiha Red + Blue + forensikani keng qamraydi. Ammo ishga olish uchun BITTA yo‘nalishda chuqurlashish kerak.</p>
+      <p class="fix"><b>Yechim:</b> 3-oyga borib bittasini tanlang: himoya (SOC/Blue) tez ish beradi; hujum (pentest) qiziqroq, lekin qiyinroq.</p>
+    </div>
+  </div>
+  <div class="rankrow med">
+    <div class="n">5</div>
+    <div>
+      <h3>Jamoa va aloqa</h3>
+      <p>Yolg‘iz o‘rganish sekin. Jamoa xatolarni ko‘rsatadi, ish imkoniyatini beradi, motivatsiya beradi.</p>
+      <p class="fix"><b>Yechim:</b> TryHackMe Discord, mahalliy Telegram kiber-guruhlar, LinkedIn’da progressni ulashing.</p>
+    </div>
+  </div>
+</div>
+
+<h2>4. Maksimal foyda rejasi</h2>
+<p class="sec-sub">Bu loyihadan va butun yo‘nalishdan eng ko‘p foydani olish uchun aniq tizim. Loyiha — nazariya; qolganini shu tarzda to‘ldiring.</p>
+
+<div class="big-quote">Har mavzuni <span>ikki marta</span> o‘rganing: avval bu yerda nazariyani, keyin <span>real muhitda</span> amalda.</div>
+
+<div class="steps">
+  <div class="step">
+    <h3>Har dars uchun sikl</h3>
+    <p><span class="k">Bu loyiha</span> (nazariya + lab) → <span class="k">TryHackMe/HTB</span> (real amaliyot) → <span class="k">GitHub writeup</span> (portfolio) → <span class="k">CTF</span> (bu yerda mustahkamlash).</p>
+  </div>
+  <div class="step">
+    <h3>Uy laboratoriyasini quring</h3>
+    <p>VirtualBox + Kali Linux + Metasploitable (zaif nishon). Barchasi bepul. Bu yerdan real nmap, Burp, Wireshark ishlatasiz — ish beruvchi shuni so‘raydi.</p>
+  </div>
+  <div class="step">
+    <h3>Portfolioni bugun boshlang</h3>
+    <p>GitHub’da <code>cyber-journey</code> repo. Har yechim — writeup. 6 oyda 50+ yechim = kuchli CV. Sertifikatdan muhimroq.</p>
+  </div>
+  <div class="step">
+    <h3>Sertifikat zinapoyasi</h3>
+    <p>ISC2 CC (bepul) → Security+ → yo‘nalishga qarab eJPT (red) yoki BTL1/CDSA (blue). Har birini bu loyihadagi mos oy bilan birga.</p>
+  </div>
+  <div class="step">
+    <h3>Ingliz tili — har kuni</h3>
+    <p>Darslarni EN tugmasi bilan takrorlang. Har kun 1 inglizcha writeup yoki hujjat. 3 oyda inglizcha texnik matnni bemalol o‘qiysiz.</p>
+  </div>
+  <div class="step">
+    <h3>Ko‘rinib turing</h3>
+    <p>LinkedIn oching, har haftalik progressni yozing. TryHackMe/Discord jamoasiga qo‘shiling. Ko‘rinish = imkoniyat.</p>
+  </div>
+  <div class="step">
+    <h3>3-oyda ixtisos tanlang</h3>
+    <p>Blue (himoya) — tezroq ish, barqaror. Red (hujum) — qiziq, raqobatli. Bittasiga chuqur kiring, ikkinchisini asosiy darajada biling.</p>
+  </div>
+</div>
+
+<div class="callout gold">
+  <h3>🎯 Eng katta sir</h3>
+  <p>Pro bo‘lganlar aqlliroq emas — <strong>izchilroq</strong>. Har kuni 1 soat, 6 oy = 180 soat amaliyot. Bu loyihaning streak tizimi aynan shuning uchun. Uzmang.</p>
+</div>
+
+<div class="callout warn">
+  <h3>⚖️ Qonuniy chegara — jiddiy</h3>
+  <p>“Hacking” faqat <strong>ruxsat berilgan</strong> joyda: o‘z laboratoriyangiz, TryHackMe, HackTheBox, scanme.nmap.org, CTF. Begona tizimga ruxsatsiz kirish — jinoyat, sud javobgarligi bor. Pro’lar buni birinchi qoida deb biladi. Portfoliongiz ham faqat qonuniy ishlarni ko‘rsatsin.</p>
+</div>
+
+<h2>5. Keyingi qadam</h2>
+<p>Bu loyihada nima qo‘shsak, siz uchun eng foydali bo‘ladi — yuqoridagi tahlildan kelib chiqib:</p>
+<div class="steps">
+  <div class="step"><h3>Uy laboratoriyasi darsi</h3><p>VirtualBox + Kali + Metasploitable’ni qadamma-qadam o‘rnatish bo‘yicha alohida dars — №1 yetishmovchilikni yopadi.</p></div>
+  <div class="step"><h3>GitHub writeup shabloni</h3><p>Har CTF/lab uchun tayyor writeup andozasi + repongizni yig‘ish yo‘riqnomasi.</p></div>
+  <div class="step"><h3>2-oy darslari</h3><p>OWASP Top 10, SQL injection, Burp Suite — real web hacking, real vositalar bilan bog‘langan.</p></div>
+  <div class="step"><h3>Sertifikatga tayyorlash rejimi</h3><p>ISC2 CC / Security+ imtihon savollari, mashq testlari bu loyihaga qo‘shiladi.</p></div>
+</div>
+
+<footer class="foot">
+  <p>Tahlil 2026-yil holatiga ko‘ra. Maoshlar — AQSh bozori (BLS va soha hisobotlari). Sertifikat narxlari o‘zgarishi mumkin.</p>
+  <div class="links">
+    <a href="https://tryhackme.com/" target="_blank" rel="noopener noreferrer">TryHackMe ↗</a>
+    <a href="https://www.hackthebox.com/" target="_blank" rel="noopener noreferrer">HackTheBox ↗</a>
+    <a href="https://overthewire.org/wargames/bandit/" target="_blank" rel="noopener noreferrer">OverTheWire ↗</a>
+    <a href="https://www.isc2.org/certifications/cc" target="_blank" rel="noopener noreferrer">ISC2 CC (bepul) ↗</a>
+    <a href="https://picoctf.org/" target="_blank" rel="noopener noreferrer">picoCTF ↗</a>
+  </div>
+</footer>
+
+</div>
+<script>
+(() => {
+  const b = document.getElementById("themeBtn");
+  const cur = () => document.documentElement.getAttribute("data-theme");
+  b.addEventListener("click", () => {
+    const dark = cur() !== "light"; // hozir qorong'i bo'lsa yorug'ga
+    document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+  });
+})();
+</script>
